@@ -1,26 +1,26 @@
 package com.thoughtworks;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Payment {
     private List<Goods> goodsList = new ArrayList<>();
-    private BigDecimal ordinaryAmount = new BigDecimal(0);
+    private BigDecimal ordinaryAmount = BigDecimal.ZERO;
+    private BigDecimal activityAmount = BigDecimal.ZERO;
 
     public Payment() {
     }
 
-    public Payment(List<Goods> goodsList) {
-        this.goodsList = goodsList;
-    }
-
-    public BigDecimal calculateAmount() {
-        for (Goods goods : goodsList
-        ) {
-            ordinaryAmount = ordinaryAmount.add(goods.getGoodsPrice().multiply(BigDecimal.valueOf(goods.getGoodsNumber())));
+    public void calculateAmount() {
+        for (Goods goods : goodsList) {
+            if (isInActivity(goods)) {
+                activityAmount = activityAmount.add(goods.getGoodsPrice().multiply(BigDecimal.valueOf(goods.getGoodsNumber())));
+            } else {
+                ordinaryAmount = ordinaryAmount.add(goods.getGoodsPrice().multiply(BigDecimal.valueOf(goods.getGoodsNumber())));
+            }
         }
-        return ordinaryAmount;
     }
 
     public BigDecimal getOrdinaryAmount() {
@@ -29,5 +29,26 @@ public class Payment {
 
     public void setOrdinaryAmount(BigDecimal ordinaryAmount) {
         this.ordinaryAmount = ordinaryAmount;
+    }
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
+
+    public BigDecimal getActivityAmount() {
+        return activityAmount;
+    }
+
+    public void setActivityAmount(BigDecimal activityAmount) {
+        this.activityAmount = activityAmount;
+    }
+
+    public boolean isInActivity(Goods goods) {
+        for (ActivityGoodsEnum a : ActivityGoodsEnum.values()) {
+            if (goods.getGoodsName().equals(a.toString())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
