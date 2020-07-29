@@ -80,4 +80,19 @@ public class pointsCalculatorTest {
         Assert.assertEquals(BigDecimal.valueOf(3000), points);
     }
 
+    @Test
+    public void should_get_1890_points_when_buy_800_activityGoods_2000_ordinaryGoods() {
+        Goods refrigerator = new Goods();
+        refrigerator.setGoodsName("TELEVISION");
+        refrigerator.setGoodsPrice(BigDecimal.valueOf(800));
+        Goods washmachine = new Goods();
+        washmachine.setGoodsName("WASHMACHINE");
+        washmachine.setGoodsPrice(BigDecimal.valueOf(2000));
+        List<Goods> goodsList = Arrays.asList(refrigerator,washmachine);
+        Payment payment = new Payment();
+        payment.setGoodsList(goodsList);
+        PointsCalculator pointsCalculator = new PointsCalculator(payment);
+        BigDecimal points = pointsCalculator.calculatePoints();
+        Assert.assertEquals(BigDecimal.valueOf(1890), points);
+    }
 }
