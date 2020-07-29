@@ -55,7 +55,7 @@ public class pointsCalculatorTest {
     }
 
     @Test
-    public void should_get_1067_points_when_buy_2350_goods() {
+    public void should_get_1067_points_when_buy_2350_ordinaryGoods() {
         Goods refrigerator = new Goods();
         refrigerator.setGoodsName("REFRIGERATOR");
         refrigerator.setGoodsPrice(BigDecimal.valueOf(2350));
@@ -66,4 +66,18 @@ public class pointsCalculatorTest {
         BigDecimal points = pointsCalculator.calculatePoints();
         Assert.assertEquals(BigDecimal.valueOf(1067), points);
     }
+
+    @Test
+    public void should_get_3000_points_when_buy_2000_activityGoods() {
+        Goods refrigerator = new Goods();
+        refrigerator.setGoodsName("TELEVISION");
+        refrigerator.setGoodsPrice(BigDecimal.valueOf(2000));
+        List<Goods> goodsList = Arrays.asList(refrigerator);
+        Payment payment = new Payment();
+        payment.setGoodsList(goodsList);
+        PointsCalculator pointsCalculator = new PointsCalculator(payment);
+        BigDecimal points = pointsCalculator.calculatePoints();
+        Assert.assertEquals(BigDecimal.valueOf(3000), points);
+    }
+
 }
